@@ -1,7 +1,7 @@
-# Project_Manager
-A project manager application
+# Project Management System
+A application for project management.
 
-**Steps to start Project Manager**
+**Steps to start Project Management System**
 1. `\i 'path_to_base_folder/dbSetup.sql` in PostgreSQL terminal inside the prefered database.
 2. `yarn` or `npm' 'start` in PMSserver folder.
 3. `yarn` or `npm' 'start` in PMSfrontend folder.
