@@ -10,13 +10,13 @@ A project manager application
 **Requirements**
 1. NodeJS <br>
 **Modules Needed**<br>
-* express <br>
-* dotenv <br>
-* express-validator 5.3.1 <br>
-* body-parser <br>
-* jsonwebtoken <br>
+  * express <br>
+  * dotenv <br>
+  * express-validator 5.3.1 <br>
+  * body-parser <br>
+  * jsonwebtoken <br>
 2. PostgreSQL
 3. ReactJS <br>
 **Modules Needed** <br>
-* react-redux <br>
-* redux-thunk <br>
+  * react-redux <br>
+  * redux-thunk <br>
