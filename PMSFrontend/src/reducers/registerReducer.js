@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   registerName : '',
   registerEmail : '',
   registerPassword : '',
-  registerRole     : '',
+  registerRole     : 'project manager',
   registerError    : '',
 };
 

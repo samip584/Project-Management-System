@@ -1,7 +1,7 @@
 import * as projectsAction from '../actions/projectsAction';
 
 const INITIAL_STATE = {
-  projects : [],
+  projects : [{}],
 };
 
 function projectsReducer(state = INITIAL_STATE, action) {
@@ -11,10 +11,10 @@ function projectsReducer(state = INITIAL_STATE, action) {
         ...state,
         projects : action.payload,
       };
-
     default:
       return state;
   }
 }
+
 
 export default projectsReducer;

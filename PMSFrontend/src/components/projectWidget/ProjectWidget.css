@@ -1,0 +1,17 @@
+.title{
+  text-align: left;
+  width: 100%;
+  color: black;
+  font-weight: 550;
+  font-size: 18px;
+}
+.description{
+  text-align: left;
+  width: 100%;
+  color: black;
+  font-size: 14px;
+}
+.projectWidget{
+  width: 80%;
+  margin: 0 15px;
+}

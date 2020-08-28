@@ -41,10 +41,10 @@ router.put('/:id', function(req, res, next){
 })
 
 router.post('/', function(req, res, next){
-  Employee.getEmployeeById(req.body.project_manager)
+  Employee.getEmployeeByEmail(req.body.project_manager)
   .then((result) => {
     if(result.get('role') === 'project manager'){
-      Project.addProject(req.body.title, req.body.description, req.body.project_manager)
+      Project.addProject(req.body.title, req.body.description, result.get('emp_id'))
       .then((result) => {
         res.json({
           msg: 'Project Added'

@@ -7,9 +7,20 @@ const Project = bookshelf.model('Project',{
   employees() {
     return this.belongsToMany('Employee','employee_projects', 'project_id', 'emp_id', 'project_id', 'emp_id')
   },
+  tasks() {
+    return this.hasMany('Task', 'project', 'project_id');
+  },
   },{
   getAllProjects:  function(){
     return this.fetchAll({
+      withRelated: ['tasks'],
+      columns: ['project_id', 'title', 'description', 'project_manager'],
+      require:false
+    });
+  },
+  getRestrictedProjects:  function(id){
+    return this.where({project_manager:id}).fetchAll({
+      withRelated: ['tasks'],
       columns: ['project_id', 'title', 'description', 'project_manager'],
       require:false
     });
@@ -20,6 +31,7 @@ const Project = bookshelf.model('Project',{
       require:false
     });
   },
+  
   updateProject:  function(id, title, description, project_manager ){
     return this.where({project_id:id}).save({
       title,

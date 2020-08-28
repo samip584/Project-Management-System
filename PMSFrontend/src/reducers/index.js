@@ -2,12 +2,14 @@ import { combineReducers } from 'redux';
 
 import loginReducer from './loginReducer';
 import registerReducer from './registerReducer';
-// import projectsReducer from './projectsReducer';
+import usersListReducer from './usersListReducer'
+import projectsReducer from './projectsReducer';
 
 const reducer = combineReducers({
   login : loginReducer,
   register : registerReducer,
-  // allProject: projectsReducer
+  projects: projectsReducer,
+  usersList: usersListReducer,
 })
 
 export default reducer;

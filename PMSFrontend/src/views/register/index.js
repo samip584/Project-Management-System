@@ -29,6 +29,7 @@ class Register extends React.Component {
     if (this.props.redirectFromRegister) {
       return <Redirect to = '/'></Redirect>
     }
+    console.log(this.props.registerRole)
     return (
       <div className="card">
         <h1 className='card-header'>Register</h1>
@@ -71,6 +72,7 @@ class Register extends React.Component {
             id       = "type" 
             name     = "type"
             onChange = {event => { 
+              console.log(event.target.value)
               this.props.setRole(event.target.value)
             }}
           >
