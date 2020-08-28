@@ -55,9 +55,11 @@ class DashBoard extends React.Component {
     if(this.state.projects){
       return (
         <div className="dash-board">
-          {this.state.projects.map(project => {
-            return <ProjectWidget project = {project}/>
-          })}
+          <div style={{display: 'flex', flexDirection: "column-reverse"}}>
+            {this.state.projects.map(project => {
+              return <ProjectWidget project = {project}/>
+            })}
+          </div>
           <br/>
           {this.addProjectButton()}
           <br/>

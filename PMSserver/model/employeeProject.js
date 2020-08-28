@@ -36,14 +36,7 @@ const employeeProject = bookshelf.model('EmployeeProject',{
     // })
   },
   inProject: function(emp_id, project_id){
-    this.where({emp_id:emp_id, project_id:project_id}).count().then(count => {
-      if(count>0){
-        return true;
-      }
-      else{
-        return false;
-      }
-    })
+    return this.where({emp_id:emp_id, project_id:project_id}).count()
     
   },
   getEmployeesProjects(emp_id){

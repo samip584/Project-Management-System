@@ -108,27 +108,35 @@ router.delete('/:id', function(req, res, next){
 })
   
 router.post('/:id/addTask', function(req, res, next){
-  
   Employee.getEmployeeByEmail(req.body.assignee)
   .then((result) => {
-    if(result.get('role') === 'team lead' || result.get('role') === 'engineer' && EmployeeProject.inProject(result.get('emp_id'), req.params.id)){
-      Task.addTask(req.body.title, req.body.description, result.get('emp_id'), req.params.id, req.body.deadline)
-      .then((result) => {
-        res.json({
-          msg: 'Task Added'
+    EmployeeProject.inProject(result.get('emp_id'), req.params.id)
+    .then(count => {
+      if(count>0){
+        isInProject = true;
+      }
+      else{
+        isInProject = false;
+      }
+      if(result.get('role') === 'team lead' || result.get('role') === 'engineer' && isInProject){
+        Task.addTask(req.body.title, req.body.description, result.get('emp_id'), req.params.id, req.body.deadline)
+        .then((result) => {
+          res.json({
+            msg: 'Task Added'
+          })
         })
-      })
-      .catch((err) => {
-        next(err)
-      })
-    }else{
-      next({
-        msg: result.get('role') + ' can not be assigned'
-      })
-    }
-  })
-  .catch((err) => {
-    next(err)
+        .catch((err) => {
+          next(err)
+        })
+      }else{
+        next({
+          msg: result.get('role') + ' can not be assigned'
+        })
+      }
+    })
+    .catch((err) => {
+      next(err)
+    })
   })
 })
   

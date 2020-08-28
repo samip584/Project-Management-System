@@ -130,7 +130,9 @@ class Project extends Component {
         <div>Project Manager : {this.state.project_manager.emp_name}</div>
         <div className = 'block'>
         <h3>Tasks</h3>
+        <div style={{display: 'flex', flexDirection: "column-reverse"}}>
         {this.loadtasks()}
+        </div>
         {this.addTaskButton()}
         </div>
         <div className = 'block'>
