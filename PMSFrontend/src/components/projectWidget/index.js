@@ -7,9 +7,11 @@ class ProjectWidget extends Component {
   constructor(){
     super()
     this.state = {
+      id:'',
       title : '',
       description: '',
-      tasks: [{title: 'No tasks', description: ''}]
+      project_manager: '',
+      tasks: []
     }
   }
 
@@ -23,11 +25,22 @@ class ProjectWidget extends Component {
   }
   
   loadtasks(){
-    if(this.props.tasks){
-      return this.props.tasks.map(task => {
+    if(this.state.tasks){
+      return this.state.tasks.map(task => {
         return this.list_element(task)
       })
     }
+  }
+
+  componentDidMount(){
+    console.log(this.props.project)
+    this.setState({
+      id: this.props.project.project_id,
+      title : this.props.project.title,
+      description: this.props.project.description,
+      project_manager: this.props.project.project_manager,
+      tasks: this.props.project.tasks
+    })
   }
   render(){
     return(
@@ -35,8 +48,8 @@ class ProjectWidget extends Component {
         <Accordion defaultActiveKey="1">
           <Card>
             <Accordion.Toggle as={Card.Header} eventKey="0">
-              <div class = 'title'>{this.props.title}</div>
-              <div class = 'description'>{this.props.description}</div>
+              <div class = 'title'><a href = {'/project/' + this.state.id}>{this.state.title}</a></div>
+              <div class = 'description'>{this.state.description}</div>
             </Accordion.Toggle>
             {this.loadtasks()}
           </Card>

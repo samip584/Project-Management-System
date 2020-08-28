@@ -20,14 +20,44 @@ router.get('/getall', function(req, res, next){
 
 router.get('/:id', function(req, res, next){
   //validate()
-  Project.getProjectById(req.params.id)
-  .then((result) => {
-    res.json(result)
-  })
-  .catch((err) => {
-    next(err)
-  })
+  if(req.user.role === 'admin'){
+    
+    let response = {
+      can_alter:true
+    }
+    Project.getProjectById(req.params.id)
+    .then((result =>{
+      response.project  = result.toJSON()
+      res.json(response)
+    }))
+  }
+
+  else if(req.user.role === 'project manager'){
+    let response = {
+      can_alter: false
+    }
+    Project.getProjectById(req.params.id)
+    .then((result =>{
+      if (result.project_manager === req.user.id){
+        response.can_alter = true
+      }
+      response.project  = result.toJSON()
+      res.json(response)
+    }))
+  }
+  else if(req.user.role === 'team lead' || req.user.role === 'engineer'){
+    let response = {
+      can_alter: false
+    }
+    Project.getProjectById(req.params.id)
+    .then((result =>{
+      response.project  = result.toJSON()
+      res.json(response)
+    }))
+  }
 })
+
+
 
 router.put('/:id', function(req, res, next){
   //validate()
@@ -78,10 +108,11 @@ router.delete('/:id', function(req, res, next){
 })
   
 router.post('/:id/addTask', function(req, res, next){
-  Employee.getEmployeeById(req.body.assignee)
+  
+  Employee.getEmployeeByEmail(req.body.assignee)
   .then((result) => {
-    if(result.get('role') === 'team lead' || result.get('role') === 'engineer'){
-      Task.addTask(req.body.title, req.body.description, req.body.assignee, req.body.project, req.body.deadline)
+    if(result.get('role') === 'team lead' || result.get('role') === 'engineer' && EmployeeProject.inProject(result.get('emp_id'), req.params.id)){
+      Task.addTask(req.body.title, req.body.description, result.get('emp_id'), req.params.id, req.body.deadline)
       .then((result) => {
         res.json({
           msg: 'Task Added'
@@ -111,7 +142,7 @@ router.get('/:id/tasks', function(req, res, next){
   })
 })
 
-router.post('/:id/addUser', function(req, res, next){
+router.post('/:id/addUsers', function(req, res, next){
   projectRelation = []
   req.body.employees.forEach(employee => {
     projectRelation.push({employee, project: req.params.id})    
@@ -125,6 +156,25 @@ router.post('/:id/addUser', function(req, res, next){
   .catch((err) => {
     next(err)
   })
+})
+
+router.post('/:id/addUser', function(req, res, next){
+  Employee.getEmployeeByEmail(req.body.email)
+  .then((result) => {
+    EmployeeProject.addEmployeeinProject(result.get('emp_id'), req.params.id)
+    .then((result) => {
+      res.json({
+        msg:'employees added'
+      })
+    })  
+    .catch((err) => {
+      next(err)
+    })
+  })
+  .catch((err) => {
+    next(err)
+  })
+  
 })
 
 router.get('/:id/getusers', function(req, res, next){

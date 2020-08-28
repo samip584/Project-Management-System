@@ -5,7 +5,7 @@ const Task = require('../model/task');
 const Comment = require('../model/comment');
 router.put('/:id', function(req, res, next){
 
-  Task.updateTask(req.params.id, req.body.description, req.body.leader, req.body.project)
+  Task.updateTask(req.params.id, req.body.description, req.body.asignee, req.body.project)
   .then((result) => {
     res.json({
       msg: 'task updated'

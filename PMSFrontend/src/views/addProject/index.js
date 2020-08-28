@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as projectsAction from '../../actions/projectsAction';
 import { Redirect } from 'react-router-dom';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from 'axios'
 
-class Register extends React.Component {
+class AddProject extends React.Component {
   addProject(title, description, project_manager) {
     let config = {
       headers: {
@@ -18,13 +17,16 @@ class Register extends React.Component {
       if(res.data){
         window.location.href='/dashboard'
     }})
+    .catch(() =>{
+      alert( 'Somethings not right')
+    })
     
   }
 
   render() {
     return (
       <div className="card">
-        <h1 className='card-header'>AddProject</h1>
+        <h1 className='card-header'>Add Project</h1>
         <div className="form-addproject"><br />
           <Form 
             onSubmit = { event => {
@@ -47,7 +49,7 @@ class Register extends React.Component {
             />
             <br />
             
-            <Button variant="primary" type="submit">Register</Button>
+            <Button variant="primary" type="submit">Add Project</Button>
           </Form>
         </div>
       </div>
@@ -55,4 +57,4 @@ class Register extends React.Component {
   }
 }
 
-export default Register;
+export default AddProject;

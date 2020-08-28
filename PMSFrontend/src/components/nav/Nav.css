@@ -5,22 +5,28 @@
   margin-bottom: 40px;
   padding: 0 15px;
 }
-.logo{
-  margin-top: 5px;
-  font-size: 40px;
-}
+
 .logo-sign{
   margin-top: 10px;
   font-size: 24px;
   margin-left: 15px;
 }
-.user-img{
-  margin-top: 10px;
-  font-size: 24px;
-  border-radius: 50%;
-  height:30px
+
+.home{
+  color:white;
 }
-.options{
-  margin-top: 18px;
-  margin-left: 4px;
+.home:hover{
+  cursor: pointer;
+  color: white;
+  text-decoration: none;
+}
+
+.logout{
+  padding-top: 12px;
+  float: right;
+  margin: 0 20px;
+}
+.logout:hover{
+  cursor: pointer;
+  text-decoration: underline;
 }

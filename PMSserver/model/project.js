@@ -25,13 +25,31 @@ const Project = bookshelf.model('Project',{
       require:false
     });
   },
-  getProjectById:  function(id){
+  getBriefProjectById: function(id){
     return this.where({project_id:id}).fetch({
+      withRelated: ['tasks'],
       columns: ['project_id', 'title', 'description', 'project_manager'],
       require:false
     });
   },
-  
+  getProjectById:  function(id){
+    return this.where({project_id:id}).fetch({
+      withRelated: [{'employees': function(qb) {
+      qb.column( 'employees.emp_id','emp_name', 'email', 'role');
+      }}, 'tasks'],
+      columns: ['project_id', 'title', 'description', 'project_manager'],
+      require:false
+    });
+  },
+
+  getProjectsInList: function(project_id_list){
+    return this.where('project_id','IN',project_id_list).fetchAll({
+      withRelated: ['tasks'],
+      columns: ['project_id', 'title', 'description', 'project_manager'],
+      require:false
+    });
+  },
+
   updateProject:  function(id, title, description, project_manager ){
     return this.where({project_id:id}).save({
       title,

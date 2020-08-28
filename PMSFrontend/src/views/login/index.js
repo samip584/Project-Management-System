@@ -3,12 +3,11 @@ import React from 'react';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
-import * as loginAction from '../../actions/loginAction';
 import { Redirect } from "react-router-dom";
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       email: "",
       password: "",
@@ -23,7 +22,29 @@ class Login extends React.Component {
   }
   handleLogin = (e) => {
     e.preventDefault();
-    this.props.login(this.state.email, this.state.password);
+    fetch('http://localhost:8000/api/login', {
+            method  : 'POST',
+            headers : {
+              'content-type': 'application/json'
+            },
+            body : JSON.stringify({
+              email : this.state.email,
+              password : this.state.password,
+            })
+          })
+      .then(res => res.json())
+      .then(res => {
+        if (res.token) {
+          console.log(res.token)
+          window.localStorage.setItem('token', res.token)
+          window.location.reload(true);
+        } else {
+          alert( 'Wrong password or email ')
+        }
+      })
+      .catch(() =>{
+        alert( 'Somethings not right')
+      })
   };
 
   render() {
@@ -62,33 +83,4 @@ class Login extends React.Component {
   }
 }
 
-function mapStateToProps (state) {
-  return ({
-    loginEmail : state.login.loginEmail,
-    loginPassword : state.login.loginPassword,
-    loginError    : state.login.loginError,
-    logged_in : state.login.logged_in
-  });
-}
-
-function mapDispatchToProps (dispatch) {
-  return {
-    setEmail: loginEmail => {
-      dispatch(loginAction.setEmail(loginEmail));
-    },
-    
-    setPassword: loginPassword => {
-      dispatch(loginAction.setPassword(loginPassword));
-    },
-
-    login: (email, password) => {
-      dispatch(loginAction.userLogin(email, password));
-    },
-
-    setLogged_in: () => {
-      dispatch(loginAction.setLogged_in(true))
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;
